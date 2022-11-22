@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1028569382004",
+    "project_id": "location-reminders-18260",
+    "storage_bucket": "location-reminders-18260.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1028569382004:android:09521873b72cf9191a6521",
+        "android_client_info": {
+          "package_name": "noor.serry.locationreminders"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1028569382004-al8ts7m35g78phpfdejcgk06g8d3qu46.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "noor.serry.locationreminders",
+            "certificate_hash": "5819d854aa0e5e771deb21caee4e6a6ad818bd40"
+          }
+        },
+        {
+          "client_id": "1028569382004-5pdd50tfah4b1j2ldvl5794l9nnnshp4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsjG5GlmmisK4k1goalWi2OaKeYGEShoE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1028569382004-5pdd50tfah4b1j2ldvl5794l9nnnshp4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
