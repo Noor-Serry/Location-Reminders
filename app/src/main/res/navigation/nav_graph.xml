@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginPage"
-        android:name="noor.serry.locationreminders.ui.login.LoginPage"
+        android:name="com.udacity.project4.ui.login.LoginPage"
         android:label="LoginPage" >
         <action
             android:id="@+id/action_loginPage_to_reminderListPage"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/reminderListPage"
-        android:name="noor.serry.locationreminders.ui.reminderList.ReminderListPage"
+        android:name="com.udacity.project4.ui.reminderList.ReminderListPage"
         android:label="ReminderListPage" >
         <action
             android:id="@+id/action_reminderListPage_to_maps"
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/maps"
-        android:name="noor.serry.locationreminders.ui.map.Maps"
+        android:name="com.udacity.project4.ui.map.Maps"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps"
         tools:ignore="ExtraText">
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/findLocation"
-        android:name="noor.serry.locationreminders.ui.map.FindLocation"
+        android:name="com.udacity.project4.ui.map.FindLocation"
         android:label="fragment_find_location"
         tools:layout="@layout/fragment_find_location" >
         <action
@@ -68,7 +68,7 @@
     </fragment>
     <fragment
         android:id="@+id/saveReminderFragment"
-        android:name="noor.serry.locationreminders.ui.saveReminder.SaveReminderFragment"
+        android:name="com.udacity.project4.ui.saveReminder.SaveReminderFragment"
         android:label="fragment_save_reminder"
         tools:layout="@layout/fragment_save_reminder" >
         <action

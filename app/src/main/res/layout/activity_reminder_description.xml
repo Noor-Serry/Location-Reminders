@@ -7,7 +7,7 @@
         <!--Data item that holds the reminder details-->
         <variable
             name="reminderDataItem"
-            type="noor.serry.locationreminders.data.ReminderDataItem" />
+            type="com.udacity.project4.data.ReminderDataItem" />
     </data>
 
     <LinearLayout
