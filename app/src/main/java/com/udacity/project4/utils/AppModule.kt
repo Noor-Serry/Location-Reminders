@@ -1,5 +1,6 @@
 package com.udacity.project4.utils
 
+import com.udacity.project4.data.ReminderDataSource
 import com.udacity.project4.data.local.LocalDB
 import com.udacity.project4.data.local.RemindersLocalRepository
 import com.udacity.project4.ui.reminderList.RecyclerAdapter
@@ -11,10 +12,11 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val saveReminderViewModel  = module {
-    viewModel { SaveReminderViewModel(repository = get(), geofence = get(),androidContext()) }}
+    viewModel { SaveReminderViewModel(repository = get()) }}
 val repositoryModel = module {
     single {
-        RemindersLocalRepository(remindersDao = get())
+        (RemindersLocalRepository(remindersDao = get()) as ReminderDataSource)
+
     }
 }
 val reminderListViewModel = module {

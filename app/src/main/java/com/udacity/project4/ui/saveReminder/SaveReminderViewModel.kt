@@ -1,19 +1,28 @@
 package com.udacity.project4.ui.saveReminder
 
 
-import android.content.Context
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.udacity.project4.data.ReminderDataSource
 import com.udacity.project4.data.dto.ReminderDTO
-import com.udacity.project4.data.local.RemindersLocalRepository
+
 import com.udacity.project4.utils.Geofence
+import dagger.Component
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 
+class SaveReminderViewModel  (val repository : ReminderDataSource) : ViewModel(),KoinComponent{
 
-class SaveReminderViewModel  (val repository : RemindersLocalRepository, val geofence: Geofence, var context: Context) : ViewModel(){
+    private val SUCCESS  = 1
+    private val ERROR = 0
+
+
+     val geofence: Geofence by inject()
      var name :String? = null
      var latitude : Double? = 0.0
      var longitude : Double? = 0.0
@@ -28,14 +37,24 @@ class SaveReminderViewModel  (val repository : RemindersLocalRepository, val geo
           onClear()
      }
 
-    private  fun saveReminder(id : String){
-        val reminderDTO = ReminderDTO(title.value, description.value, name, latitude, longitude ,id )
-        GlobalScope.launch (Dispatchers.IO){
-        repository.saveReminder(reminderDTO)}
+      fun saveReminder(id : String):Int{
+      return try{
+              val reminderDTO = ReminderDTO(title.value, description.value, name, latitude!!, longitude!! ,id )
+              GlobalScope.launch (Dispatchers.IO) {
+                  repository.saveReminder(reminderDTO)
+              }
+              SUCCESS}
+          catch (ex : Exception){
+           ERROR}
+
     }
 
-    private fun startNewGeofence(id : String){
+     fun startNewGeofence(id : String):Int{
+         return try{
         geofence.startNewGeofence(latitude!!,longitude!!,id)
+             SUCCESS }
+         catch (ex : Exception){
+             ERROR}
     }
 
     fun onClear() {

@@ -3,6 +3,7 @@ package com.udacity.project4.ui.map
 import android.location.Location
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -30,7 +31,7 @@ class Maps() : Fragment() ,OnMapReadyCallback ,OnSuccessListener<Location> ,Goog
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
             binding = FragmentMapsBinding.inflate(layoutInflater)
-        binding.searchView.setOnClickListener(this::goToFindLocationFragment)
+        binding.locationBySearch.setOnClickListener(this::goToFindLocationFragment)
         binding.save.setOnClickListener(this::goToSaveReminderFragment)
            return binding.root
     }
@@ -109,8 +110,11 @@ class Maps() : Fragment() ,OnMapReadyCallback ,OnSuccessListener<Location> ,Goog
     }
 
     private fun goToSaveReminderFragment(view : View){
-        if(directions!=null){
-        findNavController().navigate(directions!!)}
+        if(directions!=null)
+            findNavController().navigate(directions!!)
+
+        else   Toast.makeText(requireContext(),"Please Select Poi First",Toast.LENGTH_SHORT).show()
+
     }
 
 
