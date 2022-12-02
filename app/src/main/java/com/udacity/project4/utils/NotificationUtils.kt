@@ -3,6 +3,7 @@ package com.udacity.project4.utils
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -39,7 +40,7 @@ fun sendNotification(context: Context, reminderDataItem: ReminderDataItem) {
         .addParentStack(ReminderDescriptionActivity::class.java)
         .addNextIntent(intent)
    val notificationPendingIntent =
-        stackBuilder.getPendingIntent(getUniqueId(), PendingIntent.FLAG_UPDATE_CURRENT)
+        stackBuilder.getPendingIntent(getUniqueId(), FLAG_IMMUTABLE)
 
 //    build the notification object with the data to be shown
     val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)

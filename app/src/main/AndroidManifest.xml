@@ -43,7 +43,8 @@
             android:name=".utils.GeofenceBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
-            tools:ignore="ExportedReceiver" />
+            android:permission="android.permission.ACCESS_BACKGROUND_LOCATION"
+            />
         <service
             android:name=".utils.GeofenceTransitionsJobIntentService"
             android:exported="true"

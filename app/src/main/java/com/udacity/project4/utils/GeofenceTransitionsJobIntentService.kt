@@ -7,11 +7,14 @@ import com.udacity.project4.data.ReminderDataItem
 import com.udacity.project4.data.dto.ReminderDTO
 import com.udacity.project4.data.local.RemindersLocalRepository
 import kotlinx.coroutines.*
-import org.koin.android.ext.android.inject
 import kotlin.coroutines.CoroutineContext
 import com.udacity.project4.data.dto.Result
+import com.udacity.project4.data.local.LocalDB.createRemindersDao
+import com.udacity.project4.data.local.RemindersDao
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
+class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope{
 
     private var coroutineJob: Job = Job()
     override val coroutineContext: CoroutineContext
@@ -40,8 +43,9 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
 
     //TODO: get the request id of the current geofence
     private fun sendNotification(requestId:String) {
-        val remindersLocalRepository: RemindersLocalRepository by inject()
-        CoroutineScope(coroutineContext).launch(SupervisorJob()) {
+
+        val remindersLocalRepository = RemindersLocalRepository(createRemindersDao(application))
+        GlobalScope.launch(Dispatchers.IO) {
             val result = remindersLocalRepository.getReminder(requestId)
             if (result is Result.Success<ReminderDTO>) {
                 val reminderDTO = result.data

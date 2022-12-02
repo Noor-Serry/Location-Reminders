@@ -6,9 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.udacity.project4.data.ReminderDataSource
 import com.udacity.project4.data.dto.ReminderDTO
-
 import com.udacity.project4.utils.Geofence
-import dagger.Component
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -33,7 +31,6 @@ class SaveReminderViewModel  (val repository : ReminderDataSource) : ViewModel()
       fun save(){
         val id = (System.currentTimeMillis() % 10000).toString()
        saveReminder(id)
-         startNewGeofence(id)
           onClear()
      }
 
@@ -45,6 +42,7 @@ class SaveReminderViewModel  (val repository : ReminderDataSource) : ViewModel()
               }
               SUCCESS}
           catch (ex : Exception){
+
            ERROR}
 
     }

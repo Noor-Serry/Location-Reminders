@@ -3,6 +3,7 @@ package com.udacity.project4.utils
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_MUTABLE
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -24,32 +25,32 @@ class Geofence (val context : Context) {
             initializePendingIntent(id)
             initializeGeofencingRequest()
             val geofencingClient = LocationServices.getGeofencingClient(context)
-            if (checkPermission())
-                geofencingClient.addGeofences(geofenceRequest, pendingIntent)
-
+            if (checkPermission()) {
+                geofencingClient.addGeofences(geofenceRequest,pendingIntent)
+            }
         }
 
 
     private fun initializeGeofence(latitude : Double , longitude : Double ,id : String){
          geofence =  Geofence.Builder().setRequestId(id)
             .setCircularRegion(latitude,longitude,100.0f)
-            .setExpirationDuration(10*24*3600*1000)
-            .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_DWELL)
-             .setLoiteringDelay(1000)
+            .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER )
+             .setExpirationDuration(Geofence.NEVER_EXPIRE)
             .build()
     }
+
+
 
     private fun  initializePendingIntent(id : String){
         val intent = Intent(context, GeofenceBroadcastReceiver::class.java)
         intent.putExtra("id",id)
-         pendingIntent =   PendingIntent.getBroadcast(context, 0, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
+         pendingIntent =   PendingIntent.getBroadcast(context, 0, intent,FLAG_MUTABLE)
+
     }
 
     private fun initializeGeofencingRequest(){
         geofenceRequest =  GeofencingRequest.Builder().apply {
-            setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER or GeofencingRequest.INITIAL_TRIGGER_DWELL)
+            setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER )
                 . addGeofence(geofence)
         }.build()
     }

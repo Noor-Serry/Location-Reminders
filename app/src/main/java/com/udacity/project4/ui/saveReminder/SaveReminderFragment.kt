@@ -1,10 +1,15 @@
 package com.udacity.project4.ui.saveReminder
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.udacity.project4.R
@@ -35,10 +40,26 @@ class SaveReminderFragment : Fragment() {
     }
 
     private fun goToReminderList(view: View){
-        viewModel.save()
-        findNavController().navigate(R.id.action_saveReminderFragment_to_reminderListPage)
+        getPermissions()
+
+    }
+    @SuppressLint("SuspiciousIndentation")
+    private fun getPermissions() {
+        var permissions = arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        if(Build.VERSION_CODES.Q<=Build.VERSION.SDK_INT)
+        requestPermissions(permissions, 1)
     }
 
+    @SuppressLint("MissingPermission")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults[0] != PackageManager.PERMISSION_GRANTED)
+            Toast.makeText(requireContext(), "please allow permission", Toast.LENGTH_SHORT).show()
+        else {
+            viewModel.save()
+            findNavController().navigate(R.id.action_saveReminderFragment_to_reminderListPage)
+        }
+    }
 }
 
 

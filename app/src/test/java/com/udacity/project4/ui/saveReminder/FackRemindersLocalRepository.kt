@@ -2,9 +2,11 @@ package com.udacity.project4.ui.saveReminder
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.common.truth.Truth.assertThat
 import com.udacity.project4.data.ReminderDataSource
 import com.udacity.project4.data.dto.ReminderDTO
 import com.udacity.project4.data.dto.Result
+import org.junit.Test
 
 
 class FackRemindersLocalRepository() : ReminderDataSource {
@@ -26,7 +28,6 @@ class FackRemindersLocalRepository() : ReminderDataSource {
     }
 
     override suspend fun getReminder(id: String): Result<ReminderDTO> {
-        try {
             var reminder :ReminderDTO?=null
             observableReminders.value?.forEach { reminder =if (it.id==id) it else null }
             if (reminder != null) {
@@ -34,17 +35,13 @@ class FackRemindersLocalRepository() : ReminderDataSource {
             } else {
                 return  Result.Error("Reminder not found!")
             }
-        } catch (e: Exception) {
-            return Result.Error(e.localizedMessage)
-        }
+
 
     }
 
     override suspend fun deleteAllReminders() {
         reminders.clear()
         observableReminders.postValue(reminders)
-
-
     }
 
 

@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 import com.udacity.project4.utils.GeofenceTransitionsJobIntentService.Companion.enqueueWork
+import org.koin.core.component.KoinComponent
 
 
 /**
@@ -20,15 +21,14 @@ import com.udacity.project4.utils.GeofenceTransitionsJobIntentService.Companion.
  */
 
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
-
     override fun onReceive(context: Context, intent: Intent) {
         val geofencingEvent = GeofencingEvent.fromIntent(intent)
-        val geofenceTransition = geofencingEvent!!.geofenceTransition
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER
-            || geofenceTransition ==  Geofence.GEOFENCE_TRANSITION_DWELL)
+        if(geofencingEvent!=null){
+        val geofenceTransition = geofencingEvent.geofenceTransition
+        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER)
         {
             enqueueWork(context,intent)
         }
-        }
+        }}
     }
 
