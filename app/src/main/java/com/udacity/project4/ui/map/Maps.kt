@@ -138,6 +138,14 @@ class Maps() : Fragment() ,OnMapReadyCallback ,OnSuccessListener<Location> ,Goog
         fusedLocationProviderClient.lastLocation.addOnSuccessListener(this)
         return true
     }
+
+    private fun getPermissions() {
+        var permissions = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION
+            , Manifest.permission.ACCESS_COARSE_LOCATION)
+        requestPermissions(permissions, 1)
+    }
+
     @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -150,12 +158,6 @@ class Maps() : Fragment() ,OnMapReadyCallback ,OnSuccessListener<Location> ,Goog
         }
     }
 
-    private fun getPermissions() {
-        var permissions = arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION
-            , Manifest.permission.ACCESS_COARSE_LOCATION)
-        requestPermissions(permissions, 1)
-    }
 
     private fun openGps() {
         var locationRequest = LocationRequest.create().setInterval(1000).setFastestInterval(500)
