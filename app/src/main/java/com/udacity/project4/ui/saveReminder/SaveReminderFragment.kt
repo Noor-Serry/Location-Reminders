@@ -10,8 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.udacity.project4.R
 import com.udacity.project4.databinding.FragmentSaveReminderBinding
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -37,29 +40,32 @@ class SaveReminderFragment : Fragment() {
         viewModel.longitude = args.longitude.toDouble()
         viewModel.latitude = args.latitude.toDouble()
         binding.saveGeofence.setOnClickListener(this::goToReminderList)
+        showSaveMessage()
+    }
+
+    private fun showSaveMessage(){
+        viewModel.showMessage.observe(viewLifecycleOwner) {
+            if(it){
+                Toast.makeText(requireContext(),"Save New Geofence",Toast.LENGTH_LONG).show()
+                findNavController().navigate(R.id.action_saveReminderFragment_to_reminderListPage)
+            }
+            else Snackbar.make(requireView(),"Please Complete Data",Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     private fun goToReminderList(view: View){
         getPermissions()
-
+       viewModel.save()
     }
+
+
     @SuppressLint("SuspiciousIndentation")
     private fun getPermissions() {
-        var permissions = arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-        if(Build.VERSION_CODES.Q<=Build.VERSION.SDK_INT)
-        requestPermissions(permissions, 1)
+        val permissions = arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        if(Build.VERSION_CODES.Q<= Build.VERSION.SDK_INT)
+            ActivityCompat.requestPermissions(requireActivity(),permissions, 1)
     }
 
-    @SuppressLint("MissingPermission")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults[0] != PackageManager.PERMISSION_GRANTED)
-            Toast.makeText(requireContext(), "please allow permission", Toast.LENGTH_SHORT).show()
-        else {
-            viewModel.save()
-            findNavController().navigate(R.id.action_saveReminderFragment_to_reminderListPage)
-        }
-    }
 }
 
 

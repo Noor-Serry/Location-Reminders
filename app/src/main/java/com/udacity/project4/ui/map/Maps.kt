@@ -19,10 +19,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.CircleOptions
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PointOfInterest
+import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
 import com.udacity.project4.databinding.FragmentMapsBinding
 import com.udacity.project4.R
@@ -56,12 +53,19 @@ class Maps() : Fragment() ,OnMapReadyCallback ,OnSuccessListener<Location> ,Goog
     override fun onMapReady(googleMap: GoogleMap) {
         getPermissions()
         this.googleMap = googleMap
+        setMapStyle()
         googleMap.uiSettings.isZoomControlsEnabled = true
         googleMap.setOnPoiClickListener(this)
          fusedLocationProviderClient.lastLocation.addOnSuccessListener(this)
          googleMap.setOnMapLongClickListener(this::onMapLongClickListener)
         addPoiBySearching()
 
+    }
+
+    fun setMapStyle(){
+        googleMap.setMapStyle(
+            MapStyleOptions.
+            loadRawResourceStyle(requireContext(), R.raw.map_style))
     }
 
     override fun onSuccess(location: Location?) {

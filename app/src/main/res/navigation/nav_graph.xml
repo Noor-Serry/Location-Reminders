@@ -11,8 +11,7 @@
         android:label="LoginPage" >
         <action
             android:id="@+id/action_loginPage_to_reminderListPage"
-            app:destination="@id/reminderListPage"
-            app:popUpTo="@id/nav_graph" />
+            app:destination="@id/reminderListPage" />
     </fragment>
     <fragment
         android:id="@+id/reminderListPage"

@@ -25,10 +25,6 @@ import org.mockito.Mockito
 @ExperimentalCoroutinesApi
  class MapsTest{
 
-
-
-
-
     @Test
     fun goToFindLocationFragment(){
        val navController = Mockito.mock(NavController::class.java)

@@ -9,7 +9,7 @@ import com.udacity.project4.data.dto.ReminderDTO
 /**
  * The Room Database that contains the reminders table.
  */
-@Database(entities = [ReminderDTO::class], version = 2, exportSchema = false)
+@Database(entities = [ReminderDTO::class], version = 3, exportSchema = false)
 abstract class RemindersDatabase : RoomDatabase() {
 
     abstract fun reminderDao(): RemindersDao

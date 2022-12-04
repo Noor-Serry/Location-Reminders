@@ -7,6 +7,7 @@ import android.app.PendingIntent.FLAG_MUTABLE
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingRequest
