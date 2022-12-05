@@ -1,10 +1,6 @@
 package com.udacity.project4.ui.saveReminder
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,16 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.requestPermissions
-
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
@@ -88,13 +78,18 @@ class SaveReminderFragment : Fragment() {
     }
 
     private fun openGps() {
-    var locationRequest = LocationRequest.create().setInterval(1000).setFastestInterval(500)
-    var locationSetting = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
-        .setAlwaysShow(true).build()
-    var task = LocationServices.getSettingsClient(requireContext()).checkLocationSettings(locationSetting)
-    task.addOnCompleteListener{
-        if(it.isSuccessful)
-            viewModel.save()
+        var locationRequest = LocationRequest.create().setInterval(1000).setFastestInterval(500)
+        var locationSetting = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+            .setAlwaysShow(true).build()
+        var task = LocationServices.getSettingsClient(requireContext())
+            .checkLocationSettings(locationSetting)
+        task.addOnCompleteListener {
+            if (it.isSuccessful)
+                viewModel.save()
+            else {
+                (it.exception as ResolvableApiException).startResolutionForResult(
+                    requireActivity(), 1)
+            }
         }
     }
 
