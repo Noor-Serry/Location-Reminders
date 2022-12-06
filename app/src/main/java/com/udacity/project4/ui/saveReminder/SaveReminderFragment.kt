@@ -1,6 +1,7 @@
 package com.udacity.project4.ui.saveReminder
 
 import android.Manifest
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.common.api.ResolvableApiException
@@ -28,7 +30,9 @@ class SaveReminderFragment : Fragment() {
     var registerPermission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()
                    ,this::onRequestPermissionsResult)
     var registerGps = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()){
+        if(gpsIsEnable())
         viewModel.save()
+        else Toast.makeText(context,"Please open Gps" ,Toast.LENGTH_LONG).show()
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,7 +100,10 @@ class SaveReminderFragment : Fragment() {
             }
         }}
 
-
+    private fun gpsIsEnable():Boolean{
+        val systemService = ContextCompat.getSystemService(requireContext(),LocationManager::class.java) as LocationManager
+       return systemService.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
 }
 
 
