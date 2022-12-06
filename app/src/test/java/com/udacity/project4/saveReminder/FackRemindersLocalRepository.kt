@@ -1,14 +1,13 @@
-package com.udacity.project4.ui.saveReminder
+package com.udacity.project4.saveReminder
 
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.common.truth.Truth.assertThat
 import com.udacity.project4.data.ReminderDataSource
 import com.udacity.project4.data.dto.ReminderDTO
 import com.udacity.project4.data.dto.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.junit.Test
 
 
 class FackRemindersLocalRepository() : ReminderDataSource {
@@ -46,6 +45,10 @@ class FackRemindersLocalRepository() : ReminderDataSource {
     override suspend fun deleteAllReminders() {
         reminders.clear()
         observableReminders.postValue(reminders)
+    }
+
+    override fun getRemindersAsLiveData(): LiveData<List<ReminderDTO>> {
+        return observableReminders
     }
 
 }

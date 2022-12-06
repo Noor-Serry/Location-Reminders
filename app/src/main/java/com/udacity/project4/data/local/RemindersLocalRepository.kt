@@ -71,6 +71,9 @@ class RemindersLocalRepository
         }
     }
 
+    override fun getRemindersAsLiveData(): LiveData<List<ReminderDTO>> {
+            return remindersDao.getRemindersAsLiveData()
+    }
 
 
 }

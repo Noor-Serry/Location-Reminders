@@ -26,7 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SaveReminderFragment : Fragment() {
     lateinit var binding: FragmentSaveReminderBinding
-     private val viewModel: SaveReminderViewModel by sharedViewModel ()
+      val viewModel: SaveReminderViewModel by sharedViewModel ()
     var registerPermission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()
                    ,this::onRequestPermissionsResult)
     var registerGps = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()){

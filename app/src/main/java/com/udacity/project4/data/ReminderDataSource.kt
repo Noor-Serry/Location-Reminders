@@ -12,5 +12,5 @@ interface ReminderDataSource {
     suspend fun saveReminder(reminder: ReminderDTO)
     suspend fun getReminder(id: String): Result<ReminderDTO>
     suspend fun deleteAllReminders()
-
+    fun getRemindersAsLiveData() : LiveData<List<ReminderDTO>>
 }

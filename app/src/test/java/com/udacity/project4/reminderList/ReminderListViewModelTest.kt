@@ -4,7 +4,7 @@ import com.udacity.project4.data.dto.*
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import com.udacity.project4.data.dto.ReminderDTO
-import com.udacity.project4.ui.saveReminder.FackRemindersLocalRepository
+import com.udacity.project4.saveReminder.FackRemindersLocalRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule

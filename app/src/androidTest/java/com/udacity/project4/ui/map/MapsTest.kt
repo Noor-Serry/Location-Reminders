@@ -48,6 +48,7 @@ import org.mockito.Mockito
             Navigation.setViewNavController(it.view!!, navController)
             it.directions = directions
         }
+
         Espresso.onView(ViewMatchers.withId(R.id.save)).perform(click())
         Mockito.verify(navController)
             .navigate(directions)
