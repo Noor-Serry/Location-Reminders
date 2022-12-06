@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -24,8 +25,11 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class SaveReminderFragment : Fragment() {
     lateinit var binding: FragmentSaveReminderBinding
      private val viewModel: SaveReminderViewModel by sharedViewModel ()
-    var register = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()
+    var registerPermission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()
                    ,this::onRequestPermissionsResult)
+    var registerGps = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()){
+        viewModel.save()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,7 +68,7 @@ class SaveReminderFragment : Fragment() {
         , Manifest.permission.ACCESS_COARSE_LOCATION)
     if(Build.VERSION_CODES.Q<=Build.VERSION.SDK_INT)
         permissions = permissions.plus( Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-     register.launch(permissions)
+     registerPermission.launch(permissions)
 
     }
 
@@ -84,14 +88,14 @@ class SaveReminderFragment : Fragment() {
         var task = LocationServices.getSettingsClient(requireContext())
             .checkLocationSettings(locationSetting)
         task.addOnCompleteListener {
-            if (it.isSuccessful)
+            if(it.isSuccessful)
                 viewModel.save()
-            else {
-                (it.exception as ResolvableApiException).startResolutionForResult(
-                    requireActivity(), 1)
+            else{
+                val intentSender =(it.exception as ResolvableApiException).resolution.intentSender
+                registerGps.launch(IntentSenderRequest.Builder(intentSender).build())
             }
-        }
-    }
+        }}
+
 
 }
 
