@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 
 import androidx.test.filters.MediumTest
 import com.google.common.truth.Truth.assertThat
+import com.udacity.project4.LiveDataTestUtils.LiveDataTestUtils.getOrAwaitValue
 import com.udacity.project4.saveReminder.FackRemindersLocalRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -26,12 +27,21 @@ class SaveReminderViewModelTest{
         viewModel = SaveReminderViewModel(FackRemindersLocalRepository() )
     }
 
+
+    @Test
+    fun showMessageShouldReturnFalseWhenDataNotCompleted(){
+        viewModel.save()
+        val showMessageValue =viewModel.showMessage.getOrAwaitValue()
+        assertThat(showMessageValue).isFalse()
+    }
+
     @Test
     fun onClearIsWork(){
         viewModel.onClear()
         assertThat(viewModel.latitude).isNull()
         assertThat(viewModel.name).isNull()
     }
+
 
     @Test
     fun dataNotCompletedShouldReturnTrue(){
@@ -44,7 +54,6 @@ class SaveReminderViewModelTest{
         viewModel.title.value = "title"
         assertThat(viewModel.dataNotCompleted()).isFalse()
     }
-
 
 
 }

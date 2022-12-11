@@ -27,17 +27,12 @@ import org.koin.core.component.inject
 
 class SaveReminderViewModel  (val repository : ReminderDataSource) : ViewModel(),KoinComponent{
 
-    private val SUCCESS  = 1
-    private val ERROR = 0
-
-
      val geofence: Geofence by inject()
      var name :String? = null
      var latitude : Double? = 0.0
      var longitude : Double? = 0.0
      var title = MutableLiveData<String?>()
      var description = MutableLiveData<String?>()
-     var showLoading = MutableLiveData<Boolean>()
      var showMessage = MutableLiveData<Boolean>()
 
       fun save(){
@@ -55,27 +50,14 @@ class SaveReminderViewModel  (val repository : ReminderDataSource) : ViewModel()
         return title.value.isNullOrEmpty()||description.value.isNullOrEmpty()
     }
 
-      fun saveReminder(id : String):Int{
-      return try{
-              showLoading.value = false
+    fun saveReminder(id : String){
               GlobalScope.launch (Dispatchers.IO) {
-                  showLoading.postValue( true)
                   val reminderDTO = ReminderDTO(title.value, description.value, name, latitude!!, longitude!! ,id )
                   repository.saveReminder(reminderDTO)
-              }
-              SUCCESS}
-          catch (ex : Exception){
+    } }
 
-           ERROR}
-
-    }
-
-     fun startNewGeofence(id : String):Int{
-         return try{
+     fun startNewGeofence(id : String){
         geofence.startNewGeofence(latitude!!,longitude!!,id)
-             SUCCESS }
-         catch (ex : Exception){
-             ERROR}
     }
 
     fun onClear() {
@@ -84,7 +66,7 @@ class SaveReminderViewModel  (val repository : ReminderDataSource) : ViewModel()
         name = null
         latitude = null
         longitude = null
-         showMessage = MutableLiveData<Boolean>()
+        showMessage = MutableLiveData<Boolean>()
     }
 
 

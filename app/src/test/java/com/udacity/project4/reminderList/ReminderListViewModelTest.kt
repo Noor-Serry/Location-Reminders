@@ -1,54 +1,48 @@
 package com.udacity.project4.ui.reminderList
 
-import com.udacity.project4.data.dto.*
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
+import com.udacity.project4.LiveDataTestUtils.LiveDataTestUtils.getOrAwaitValue
 import com.udacity.project4.data.dto.ReminderDTO
 import com.udacity.project4.saveReminder.FackRemindersLocalRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 
-
+@ExperimentalCoroutinesApi
 class ReminderListViewModelTest {
-    private val ID = "id"
 
     lateinit var viewModel: ReminderListViewModel
-    var fakeData = ReminderDTO("titel","des","name",1.1,1.1,ID)
+    val fackRemindersLocalRepository = FackRemindersLocalRepository()
+
+    var fakeData = ReminderDTO("titel","des","name",1.1,1.1,"id")
     @Rule
     @JvmField
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setup()= runBlocking {
-        viewModel = ReminderListViewModel(FackRemindersLocalRepository())
+        fackRemindersLocalRepository.saveReminder(fakeData)
+        viewModel = ReminderListViewModel(fackRemindersLocalRepository)
+
     }
 
     @Test
-    fun checkLoadingData()= runBlocking {
-        viewModel.repository.saveReminder(fakeData)
-        viewModel.getReminders().observeForever{
-            it.forEach {
-                assertThat(it).isEqualTo(fakeData)
-            }
-        }
-    }
-
-   @Test
-   fun checkLoadingDataById()= runBlocking {
-       viewModel.repository.saveReminder(fakeData)
-       var result =viewModel.getReminderById(ID)
-       var reminder = (result as  Result.Success).data
-       assertThat(reminder).isEqualTo(fakeData)
-   }
+    fun shouldReturnError () {
+        fackRemindersLocalRepository.setReturnError(true)
+        viewModel.loadReminders()
+        var result =viewModel.showSnackBar.getOrAwaitValue()
+       assertThat(result).isEqualTo("Test exception")
+       }
 
     @Test
-    fun shouldReturnErrorWhenReminderNoFound()= runBlocking {
-        var result =viewModel.getReminderById(ID)
-        assertThat(result).isEqualTo(Result.Error("Reminder not found!"))
+    fun check_loading_Reminders(){
+        viewModel.loadReminders()
+        val result = viewModel.reminders.getOrAwaitValue()
+        assertThat(result.get(0)).isEqualTo(fakeData)
     }
-
 
 }

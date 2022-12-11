@@ -31,7 +31,7 @@ import org.mockito.Mockito
          scenario.onFragment {
              Navigation.setViewNavController(it.view!!, navController)
          }
-         Espresso.onView(ViewMatchers.withId(R.id.imageButton)).perform(ViewActions.click())
+         Espresso.onView(ViewMatchers.withId(R.id.newReminderButton)).perform(ViewActions.click())
          Mockito.verify(navController).navigate(
              R.id.action_reminderListPage_to_maps
          )

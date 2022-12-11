@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthUI
+import com.google.android.material.snackbar.Snackbar
 import com.udacity.project4.R
 import com.udacity.project4.databinding.FragmentReminderListPageBinding
 import org.koin.android.ext.android.inject
@@ -25,20 +26,21 @@ class ReminderListPage : Fragment() {
        binding = FragmentReminderListPageBinding.inflate(layoutInflater)
         binding.viewModel = viewMode
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewMode.getReminders().observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()){
-            adapter.setDataItem(it)
-            binding.recyclerView.adapter = adapter
-                binding.newReminderButton.visibility = View.GONE
-        }}
-
-
-        binding.imageButton.setOnClickListener(this::goToSelectLocationPage)
+        viewMode.loadReminders()
+        binding.newReminderButton.setOnClickListener(this::goToSelectLocationPage)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewMode.showSnackBar.observe(viewLifecycleOwner){
+            Snackbar.make(requireView(),it, Snackbar.LENGTH_SHORT).show()
+        }
+        viewMode.reminders.observe(viewLifecycleOwner){
+            adapter.setDataItem(it)
+            binding.recyclerView.adapter = adapter
+            binding.emptyReminderImage.visibility = View.GONE
+        }
         binding.logOutButton.setOnClickListener(this::logOut)
     }
 
