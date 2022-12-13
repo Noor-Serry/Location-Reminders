@@ -1,20 +1,7 @@
 package com.udacity.project4.ui.saveReminder
 
-
-
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
-import android.view.View
-import android.widget.Toast
-import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
-import com.udacity.project4.R
 import com.udacity.project4.data.ReminderDataSource
 import com.udacity.project4.data.dto.ReminderDTO
 import com.udacity.project4.utils.Geofence
@@ -33,6 +20,7 @@ class SaveReminderViewModel  (val repository : ReminderDataSource) : ViewModel()
      var longitude : Double? = 0.0
      var title = MutableLiveData<String?>()
      var description = MutableLiveData<String?>()
+     var showLoading = MutableLiveData<Boolean>()
      var showMessage = MutableLiveData<Boolean>()
 
       fun save(){
@@ -51,9 +39,11 @@ class SaveReminderViewModel  (val repository : ReminderDataSource) : ViewModel()
     }
 
     fun saveReminder(id : String){
+                  showLoading.value = true
               GlobalScope.launch (Dispatchers.IO) {
                   val reminderDTO = ReminderDTO(title.value, description.value, name, latitude!!, longitude!! ,id )
                   repository.saveReminder(reminderDTO)
+                  showLoading.postValue( false)
     } }
 
      fun startNewGeofence(id : String){

@@ -37,9 +37,11 @@ class FackRemindersLocalRepository() : ReminderDataSource {
          if (shouldReturnError) {
                 return@withContext Result.Error("Test exception")
          }
-         observableReminders.value?.forEach {
-                return@withContext Result.Success(it)
+         reminders.forEach {
+             if(it.id == id)
+                 return@withContext Result.Success(it)
          }
+
          return@withContext Result.Error("Could not find task")
      }
 
@@ -53,3 +55,4 @@ class FackRemindersLocalRepository() : ReminderDataSource {
     }
 
 }
+
