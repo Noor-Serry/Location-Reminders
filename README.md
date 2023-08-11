@@ -1,10 +1,45 @@
 # Location-Reminders
-![Screenshot_20221123_163214](https://user-images.githubusercontent.com/95979643/203581107-b94e130b-51ca-4760-a730-f9d58c8b5577.png)
-![Screenshot_20221123_163835](https://user-images.githubusercontent.com/95979643/203581137-a5705d09-86fb-41b4-b5f1-a1d38ee44268.png)
-![Screenshot_20221123_163842](https://user-images.githubusercontent.com/95979643/203581147-71399bd1-a9c4-4f6a-a878-4a330c722098.png)
-![Screenshot_20221123_163850](https://user-images.githubusercontent.com/95979643/203581157-46130ff0-53ac-4fcf-be57-6dabb00c499a.png)
-![Screenshot_20221123_163918](https://user-images.githubusercontent.com/95979643/203581167-9e59ab84-547f-492d-85f0-eaceea571014.png)
-![Screenshot_20221123_163940](https://user-images.githubusercontent.com/95979643/203581187-5d9c7dcc-6ada-44c7-92a7-ada403c325c7.png)
-![Screenshot_20221123_163959](https://user-images.githubusercontent.com/95979643/203581205-6484f984-33e0-4f27-9ea8-62302127f0fe.png)
-![Screenshot_20221123_165954](https://user-images.githubusercontent.com/95979643/203581229-3eb32d3a-ae1b-4689-9144-35ec592fdd15.png)
-![Screenshot_20221123_170014](https://user-images.githubusercontent.com/95979643/203581245-abfc0984-3f3d-4144-9b8f-85aed842bb36.png)
+
+
+
+
+https://github.com/Noor-Serry/Location-Reminders/assets/95979643/5fcaf2c5-dc48-4d17-b447-65508c492345
+<h1>
+  <p>Project architrcture (Clean architrcture) </p>
+<img align="center" 
+src="https://github.com/Noor-Serry/Location-Reminders/assets/95979643/0bce7ed5-7851-4312-ae94-446f3b06c753" alt=""/>
+</h1>
+
+<h2>
+  references
+ <ul>
+  <li>
+    <a href = "https://www.youtube.com/watch?v=kSGNQbEiDFA&t=2544s">Clean Architecture </a>
+    </li>
+   
+  <li>
+    <a href = "https://www.youtube.com/watch?v=OknMZUnTyds&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&pp=iAQB">google maps</a>
+ </li>
+   
+   <ul>
+     <li>
+     <h3> some unit test resource </h3>
+       </li>
+     <li>
+       <a href = "https://www.youtube.com/live/AmaHlsd4vUg?feature=share">unit test resource1</a>
+     </li>
+     <li>
+        <a href = "https://youtube.com/playlist?list=PLQkwcJG4YTCSYJ13G4kVIJ10X5zisB2Lq">unit test resource2</a>
+     </li>
+  <li>
+      <a href="https://www.youtube.com/watch?v=yYV4RdhUu4M&list=PLnphl9fhhiQ6zEsjwIudnKq4QalJxZPoK&pp=iAQB">unit test resource3</a>
+      
+   </li>
+     <li>
+       <a href = "https://www.youtube.com/watch?v=rk6aKkWqqcI&list=PLQkwcJG4YTCQHCppNAQmLsj_jW38rU9sC&index=4&pp=iAQB">
+         unit test resource4
+    </a>
+     </li>
+   </ul>
+ </h3>
+</ul>
