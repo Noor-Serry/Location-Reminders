@@ -1,34 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
-        android:allowBackup="true"
         android:name=".ui.UsersApp"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LocationReminders"
+
         tools:targetApi="31">
 
         <!--
-             TODO: Before you run your application, you need a Google Maps API key.
+             TODO: Before you run your application, you need a Google MapFragment API key.
 
 
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCF6oUV_GZQHXWvX8U7vMWX8ioSsIK1qfA" />
-        <activity android:name=".ui.activity.ReminderDescriptionActivity"/>
+
+        <activity android:name=".ui.activity.reminder_description.ReminderDescriptionActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            />
+
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.activity.main.MainActivity"
+            android:theme="@style/Theme.MySplash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,15 +50,16 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <receiver
-            android:name=".utils.GeofenceBroadcastReceiver"
+            android:name=".ui.broadcast.GeofenceBroadcastReceiver"
             android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.ACCESS_BACKGROUND_LOCATION"
-            />
+            android:exported="true">
+        </receiver>
+
         <service
-            android:name=".utils.GeofenceTransitionsJobIntentService"
+            android:name=".ui.service.GeofenceTransitionsService"
             android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+            android:foregroundServiceType="location" />
     </application>
 </manifest>

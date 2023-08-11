@@ -5,19 +5,27 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'androidx.navigation.safeargs'
+    id 'com.google.dagger.hilt.android'
+    id("de.mannodermaus.android-junit5")
 }
 
 android {
     namespace 'com.udacity.project4'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.udacity.project4"
         minSdk 24
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
+        testInstrumentationRunner "com.example.note.HiltTestRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+
     }
 
     buildTypes {
@@ -36,6 +44,22 @@ android {
     dataBinding{
         enabled = true
     }
+
+
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.3.2'
+        kotlinCompilerVersion '1.7.20'
+    }
+    configurations.all {
+        resolutionStrategy {
+            force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20"
+        }
+    }
+
+
 }
 
 dependencies {
@@ -44,36 +68,47 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'androidx.test:core-ktx:1.5.0'
     implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.9.2'
     implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation project(path: ':data')
+    implementation project(path: ':domain')
+
+
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+
+
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     //firebase
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation platform('com.google.firebase:firebase-bom:31.0.1')
 
-    // Koin for Android
-    implementation 'io.insert-koin:koin-android:3.2.0-beta-1'
     //firebase-auth
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
     implementation 'com.google.android.libraries.places:places:2.7.0'
     implementation 'com.google.firebase:firebase-auth-ktx'
+
+
+    
+    //hilt
+    implementation 'com.google.dagger:hilt-android:2.45'
+    kapt 'com.google.dagger:hilt-compiler:2.45'
+    implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
+
     //navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
-    // LiveData
-    def lifecycle_version = "2.5.0-rc02"
-    //noinspection GradleDependency
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    // ViewModel
-    //noinspection GradleDependency
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+
+
 
     //RoomDataBase
     def room_version = "2.4.3"
@@ -86,37 +121,33 @@ dependencies {
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
 
-    // Core library
-    androidTestImplementation 'androidx.test:core:1.5.0'
-// AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.5.1'
-    androidTestImplementation 'androidx.test:rules:1.5.0'
-// Espresso dependencies
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.0'
+    //sdp&&ssp
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'
+
+    // Preferences DataStore
+    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha04"
+
+    // compose
+    def compose_version = "1.0.5"
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+
+    //Splash screen Api
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 
 
-    testImplementation 'androidx.test.espresso:espresso-core:3.5.0'
-    testImplementation 'androidx.test:core:1.5.0'
-    testImplementation 'androidx.test.ext:junit:1.1.4'
-    testImplementation 'androidx.test:runner:1.5.1'
-    testImplementation 'androidx.test:rules:1.5.0'
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
 
 
-    implementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.3")
-    androidTestImplementation "org.mockito:mockito-core:2.28.2"
-    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:2.12.1"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.5.0"
 
-    debugImplementation("androidx.fragment:fragment-testing:1.1.0-beta01")
-    debugImplementation("androidx.fragment:fragment-ktx:1.1.0-beta01")
-    testImplementation "org.mockito:mockito-core:2.28.2"
-    testImplementation "com.linkedin.dexmaker:dexmaker-mockito:2.12.1"
-    testImplementation "androidx.test.espresso:espresso-contrib:3.5.0"
+    // junit 5
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1"
+
+    //mockk
+    testImplementation "io.mockk:mockk:1.12.0"
 
 }

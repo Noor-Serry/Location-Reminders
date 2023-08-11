@@ -1,62 +1,57 @@
 package com.udacity.project4.ui.saveReminder
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.udacity.project4.data.ReminderDataSource
-import com.udacity.project4.data.dto.ReminderDTO
-import com.udacity.project4.utils.Geofence
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import androidx.lifecycle.viewModelScope
+import com.example.domain.entity.Address
+import com.example.domain.entity.Coordinates
+import com.example.domain.entity.Reminder
+import com.example.domain.use_case.AddReminderGeofencingUseCase
+import com.example.domain.use_case.GetAddressInfoUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import javax.inject.Inject
+import com.udacity.project4.utils.dispatcher.DispatcherProvider
 
+@HiltViewModel
+class SaveReminderViewModel @Inject constructor(
+    private val getAddressInfoUseCase: GetAddressInfoUseCase,
+    private val addReminderGeofencingUseCase: AddReminderGeofencingUseCase,
+    private val dispatchers: DispatcherProvider
+) : ViewModel() {
 
-class SaveReminderViewModel  (val repository : ReminderDataSource) : ViewModel(),KoinComponent{
+    private val _addressState = MutableStateFlow<Address?>(null)
+    val addressState = _addressState.asStateFlow()
 
-     val geofence: Geofence by inject()
-     var name :String? = null
-     var latitude : Double? = 0.0
-     var longitude : Double? = 0.0
-     var title = MutableLiveData<String?>()
-     var description = MutableLiveData<String?>()
-     var showLoading = MutableLiveData<Boolean>()
-     var showMessage = MutableLiveData<Boolean>()
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage = _errorMessage.asStateFlow()
 
-      fun save(){
-          if(dataNotCompleted())
-              showMessage.value = false
-          else {
-              showMessage.value = true
-              val id = (System.currentTimeMillis() % 10000).toString()
-              saveReminder(id)
-              startNewGeofence(id)
-              onClear()
-     }}
+    private val _geofencingAddedSuccessfully = MutableStateFlow(false)
+    val geofencingAddedSuccessfully = _geofencingAddedSuccessfully.asStateFlow()
 
-     fun dataNotCompleted():Boolean{
-        return title.value.isNullOrEmpty()||description.value.isNullOrEmpty()
+    fun saveReminder(reminder: Reminder) {
+        viewModelScope.launch(dispatchers.IO) {
+            try {
+                addReminderGeofencingUseCase(reminder)
+                _geofencingAddedSuccessfully.update { true }
+            } catch (e: Exception) {
+                _errorMessage.update { e.message }
+            }
+        }
     }
 
-    fun saveReminder(id : String){
-                  showLoading.value = true
-              GlobalScope.launch (Dispatchers.IO) {
-                  val reminderDTO = ReminderDTO(title.value, description.value, name, latitude!!, longitude!! ,id )
-                  repository.saveReminder(reminderDTO)
-                  showLoading.postValue( false)
-    } }
-
-     fun startNewGeofence(id : String){
-        geofence.startNewGeofence(latitude!!,longitude!!,id)
-    }
-
-    fun onClear() {
-        title.value = null
-        description.value = null
-        name = null
-        latitude = null
-        longitude = null
-        showMessage = MutableLiveData<Boolean>()
+    fun getAddressInfo(coordinates: Coordinates) {
+        viewModelScope.launch(dispatchers.IO) {
+            try {
+                getAddressInfoUseCase.getAddressInfo(coordinates).collect { addresses ->
+                    _addressState.update { getAddressInfoUseCase.getFirstAddress(addresses) }
+                }
+            } catch (e: Exception) {
+                _errorMessage.update { e.message }
+            }
+        }
     }
 
 

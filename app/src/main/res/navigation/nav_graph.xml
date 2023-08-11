@@ -3,95 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginPage">
+    >
+
 
     <fragment
         android:id="@+id/loginPage"
         android:name="com.udacity.project4.ui.login.LoginPage"
-        android:label="LoginPage" >
+        android:label="LoginPage"
+        tools:layout="@layout/page_login">
         <action
-            android:id="@+id/action_loginPage_to_reminderListPage"
-            app:destination="@id/reminderListPage"
+            android:id="@+id/action_loginPage_to_remindersFragment"
+            app:destination="@id/remindersFragment"
             app:popUpTo="@id/nav_graph" />
     </fragment>
     <fragment
-        android:id="@+id/reminderListPage"
-        android:name="com.udacity.project4.ui.reminderList.ReminderListPage"
-        android:label="ReminderListPage" >
+        android:id="@+id/remindersFragment"
+        android:name="com.udacity.project4.ui.reminders.RemindersFragment"
+        android:label="RemindersFragment"
+        tools:layout="@layout/fragment_reminders">
         <action
-            android:id="@+id/action_reminderListPage_to_maps"
-            app:destination="@id/maps" />
+            android:id="@+id/action_remindersFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
-        android:id="@+id/maps"
-        android:name="com.udacity.project4.ui.map.Maps"
-        android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps"
-        tools:ignore="ExtraText">
+        android:id="@+id/mapFragment"
+        android:name="com.udacity.project4.ui.saveReminder.map.MapFragment"
+        android:label="MapFragment"
+        tools:layout="@layout/fragment_map">
         <action
-            android:id="@+id/action_maps_to_findLocation"
-            app:destination="@id/findLocation"
-            app:popUpToInclusive="false" />
-        <argument
-            android:name="latitude"
-            app:argType="float"
-            android:defaultValue="0.0"
-            />
-        <argument
-            android:name="longitude"
-            app:argType="float"
-            android:defaultValue="0.0"
-
-           />
-        <argument
-            android:name="name"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue= ""
-            />
-        <action
-            android:id="@+id/action_maps_to_saveReminderFragment"
+            android:id="@+id/action_mapFragment_to_saveReminderFragment"
             app:destination="@id/saveReminderFragment" />
 
-
-
-    </fragment>
-    <fragment
-        android:id="@+id/findLocation"
-        android:name="com.udacity.project4.ui.map.FindLocation"
-        android:label="fragment_find_location"
-        tools:layout="@layout/fragment_find_location" >
-        <action
-            android:id="@+id/action_findLocation_to_maps"
-            app:destination="@id/maps"
-            app:popUpTo="@id/reminderListPage"
-            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/saveReminderFragment"
         android:name="com.udacity.project4.ui.saveReminder.SaveReminderFragment"
-        android:label="fragment_save_reminder"
-        tools:layout="@layout/fragment_save_reminder" >
-        <action
-            android:id="@+id/action_saveReminderFragment_to_reminderListPage"
-            app:destination="@id/reminderListPage"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
-        <argument
-            android:name="latitude"
-            app:argType="float"
-
-            />
-        <argument
-            android:name="longitude"
-            app:argType="float"
-
-
-            />
-        <argument
-            android:name="name"
-            app:argType="string"
-            app:nullable="true"
-            />
+        android:label="SaveReminderFragment"
+        tools:layout="@layout/fragment_save_reminder">
+        <argument android:name="coordinates"
+            app:argType="com.example.domain.entity.Coordinates"
+            app:nullable="false"/>
     </fragment>
 </navigation>

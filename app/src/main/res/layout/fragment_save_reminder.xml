@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-<variable
-    name="viewModel"
-    type="com.udacity.project4.ui.saveReminder.SaveReminderViewModel" />
+
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -18,7 +16,6 @@
         android:weightSum="5"
         android:orientation="vertical">
         <EditText
-            android:text="@={viewModel.title}"
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,31 +25,31 @@
             android:hint="title"
             />
         <EditText
-            android:id="@+id/des"
+            android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:text="@={viewModel.description}"
             android:textSize="32sp"
             android:textColor="@color/black"
             android:layout_weight="2"
             android:hint="description"
             />
-        <TextView
 
+        <TextView
+            android:id="@+id/locationDetailsTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
             android:textSize="24sp"
             android:textColor="@color/black"
             android:gravity="center_vertical"
-            android:drawableStart="@drawable/ic_baseline_location_on_24"
-            android:text="@{viewModel.name}"
+            android:drawableStart="@drawable/googlemaps"
+            android:text=""
             />
 
 
     </LinearLayout>
-    <ImageButton
+    <ImageView
         android:id="@+id/saveGeofence"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
